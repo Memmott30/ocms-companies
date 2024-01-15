@@ -8,6 +8,7 @@ export const databaseProviders = [
     username: 'marcelo',
     password: '1234',
     database: 'ocms',
+    schema: '',
     entities: ['dist/**/*.entity{.ts,.js}'],
     synchronize: true,
     logging: true,
