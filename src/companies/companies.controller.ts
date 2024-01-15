@@ -4,34 +4,41 @@ import {
   Delete,
   Get,
   Param,
+  Patch,
   Post,
-  Put,
 } from '@nestjs/common';
+import { Company } from './entities/companies.entity';
+import { CompaniesService } from './companies.service';
+import { CreateCompanyDto } from './dto/create.companies.dto';
+import { UpdateCompaniesDto } from './dto/update.companies.dto';
 
 @Controller('companies')
 export class CompaniesController {
+  constructor(private readonly companiesService: CompaniesService) {}
   @Get()
-  getAll() {
-    return 'This action returns all companies';
+  findAll(): Promise<Company[]> {
+    return this.companiesService.findAll();
   }
 
   @Get(':id')
-  getAllId(@Param('id') id: number) {
-    return `This action returns a #${id} company`;
+  findOne(@Param('id') id: number) {
+    return this.companiesService.findOne(id);
   }
 
   @Post()
-  create(@Body() body: any) {
-    return body;
+  create(@Body() name: CreateCompanyDto): Promise<Company> {
+    return this.companiesService.create(name);
   }
 
-  @Put(':id')
-  update(@Param('id') id: number, @Body() body: any) {
-    return body;
+  @Patch('/:id')
+  update(
+    @Param('id') id: number,
+    @Body() updateCompaniesDto: UpdateCompaniesDto,
+  ) {
+    return this.companiesService.update(id, updateCompaniesDto);
   }
-
   @Delete(':id')
   delete(@Param('id') id: number) {
-    return `This action removes a #${id} company`;
+    return this.companiesService.delete(id);
   }
 }
